@@ -9,16 +9,17 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('discussoes', function (Blueprint $table) {
+        Schema::create('followed_users', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->text('texto');
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('followed_user_id');
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('followed_user_id')->references('id')->on('users');
         });
     }
+
 
     public function down(): void
     {

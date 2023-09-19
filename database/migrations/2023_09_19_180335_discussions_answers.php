@@ -9,15 +9,15 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('discussoes_respostas', function (Blueprint $table) {
+        Schema::create('discussions_answers', function (Blueprint $table) {
             $table->id();
             $table->text('texto');
-            $table->unsignedBigInteger('discussao_id');
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('discussion_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('discussao_id')->references('id')->on('discussoes');
-            $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->foreign('discussion_id')->references('id')->on('discussions');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -9,17 +9,16 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
+        Schema::create('followers', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('sobrenome');
-            $table->string('nickname')->unique();
-            $table->string('email')->unique();
-            $table->string('senha');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('follower_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('follower_id')->references('id')->on('users');
         });
     }
-
 
     public function down(): void
     {
