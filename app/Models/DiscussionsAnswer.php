@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DiscussionsAnswers extends Model
+class DiscussionsAnswer extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,7 @@ class DiscussionsAnswers extends Model
 
     public function discussion()
     {
-        return $this->belongsTo(Discussions::class, 'discussion_id');
+        return $this->belongsTo(Discussion::class, 'discussion_id');
     }
 
     public function user()

@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AnswersLikes extends Model
+class DiscussionsLike extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'answer_id'
+        'discussion_id',
     ];
 
     public function user()
     {
-        return $this->belongsTo(Users::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function answer()
+    public function discussion()
     {
-        return $this->belongsTo(DiscussionsAnswers::class, 'answer_id');
+        return $this->belongsTo(Discussion::class, 'discussion_id');
     }
 }

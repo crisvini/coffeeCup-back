@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Followers extends Model
+class Follower extends Model
 {
     use HasFactory;
 
@@ -17,12 +17,12 @@ class Followers extends Model
     // Relacionamento com o usuário que é seguido
     public function user()
     {
-        return $this->belongsTo(Users::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // Relacionamento com o seguidor
     public function follower()
     {
-        return $this->belongsTo(Users::class, 'follower_id');
+        return $this->belongsTo(User::class, 'follower_id');
     }
 }
