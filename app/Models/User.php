@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model implements Authenticatable
+class User extends Authenticatable
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens, Notifiable;
 
     protected $fillable = [
         'name',
@@ -37,38 +38,5 @@ class User extends Model implements Authenticatable
     public function followers()
     {
         return $this->belongsToMany(User::class, 'followed_users', 'followed_user_id', 'user_id');
-    }
-
-    // Resto do código da sua classe User
-
-    // Implementação dos métodos da interface Authenticatable
-    public function getAuthIdentifierName()
-    {
-        return 'id'; // Nome do campo de identificação (geralmente 'id')
-    }
-
-    public function getAuthIdentifier()
-    {
-        return $this->getKey(); // Retorna o valor do campo de identificação (geralmente 'id')
-    }
-
-    public function getAuthPassword()
-    {
-        return $this->senha; // Substitua 'senha' pelo nome do campo de senha no seu modelo
-    }
-
-    public function getRememberToken()
-    {
-        return $this->remember_token; // Substitua 'remember_token' pelo nome do campo na sua tabela de usuários
-    }
-
-    public function setRememberToken($value)
-    {
-        $this->remember_token = $value; // Substitua 'remember_token' pelo nome do campo na sua tabela de usuários
-    }
-
-    public function getRememberTokenName()
-    {
-        return 'remember_token'; // Substitua 'remember_token' pelo nome do campo na sua tabela de usuários
     }
 }
