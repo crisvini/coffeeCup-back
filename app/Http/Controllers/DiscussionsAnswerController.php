@@ -2,50 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DiscussionsAnswer;
 use Illuminate\Http\Request;
 
 class DiscussionsAnswerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return DiscussionsAnswer::all();
     }
 
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        DiscussionsAnswer::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        return DiscussionsAnswer::findOrFail($id);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $user = DiscussionsAnswer::findOrFail($id);
+        $user->update($request->all());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $user = DiscussionsAnswer::findOrFail($id);
+        $user->delete();
     }
 }
