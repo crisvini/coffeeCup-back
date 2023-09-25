@@ -48,7 +48,7 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::user()->currentAccessToken()->delete();
-        return response()->json('Success', 200);
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(true, 200);
     }
 }
