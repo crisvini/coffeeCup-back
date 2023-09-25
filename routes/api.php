@@ -15,18 +15,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('users', UserController::class);
+Route::apiResource('users', UserController::class)->middleware('auth:sanctum');
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);
 
-Route::apiResource('users', AnswersLikeController::class);
+// Route::apiResource('users', AnswersLikeController::class);
 
-Route::apiResource('users', DiscussionController::class);
+// Route::apiResource('users', DiscussionController::class);
 
-Route::apiResource('users', DiscussionsAnswerController::class);
+// Route::apiResource('users', DiscussionsAnswerController::class);
 
-Route::apiResource('users', DiscussionsLikeController::class);
+// Route::apiResource('users', DiscussionsLikeController::class);
 
-Route::apiResource('users', FollowedUserController::class);
+// Route::apiResource('users', FollowedUserController::class);
 
-Route::apiResource('users', FollowerController::class);
+// Route::apiResource('users', FollowerController::class);
