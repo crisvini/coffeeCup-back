@@ -11,25 +11,26 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('users', UserController::class);
-    Route::post('/logout', [UserController::class, 'logout']);
-});
 
 Route::post('/login', [UserController::class, 'login']);
 
-// Route::apiResource('users', AnswersLikeController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::post('/logout', [UserController::class, 'logout']);
 
-// Route::apiResource('users', DiscussionController::class);
+    Route::apiResource('users', UserController::class);
 
-// Route::apiResource('users', DiscussionsAnswerController::class);
+    Route::apiResource('answersLikes', AnswersLikeController::class);
 
-// Route::apiResource('users', DiscussionsLikeController::class);
+    Route::apiResource('discussions', DiscussionController::class);
 
-// Route::apiResource('users', FollowedUserController::class);
+    Route::apiResource('discussionsAnswers', DiscussionsAnswerController::class);
 
-// Route::apiResource('users', FollowerController::class);
+    Route::apiResource('discussionsLikes', DiscussionsLikeController::class);
+
+    Route::apiResource('followedUsers', FollowedUserController::class);
+
+    Route::apiResource('followers', FollowerController::class);
+});
