@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('discussions_answers', function (Blueprint $table) {
             $table->id();
-            $table->text('texto');
+            $table->text('text');
             $table->unsignedBigInteger('discussion_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
