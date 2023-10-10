@@ -21,17 +21,24 @@ class UserController extends Controller
         User::create($request->all());
     }
 
-    public function sendVerificationEmail(Request $request)
+    public function sendVerificationToken(Request $request)
     {
-        $code = mt_rand(100000, 999999);
+        $token = mt_rand(100000, 999999);
         $sent = Mail::to($request->input('email'))->send(new EmailVerification([
-            'fromName' => 'coffee cup',
+            'fromName' => 'Coffee Cup',
             'fromEmail' => 'coffeecup@verification.com',
-            'subject' => 'Your verification code from coffee cup',
-            'message' => ('Your verification code is: ' . $code)
+            'subject' => 'Your verification token from Coffee Cup',
+            'message' => ('Your verification token is ' . $token)
         ]));
+        return $token;
+    }
 
-        return $code;
+    public function receiveVerificationToken(string $id)
+    {
+        $user = User::findOrFail($id);
+        $user->email_verified_at = now();
+        $user->save();
+        return true;
     }
 
     public function show(string $id)
