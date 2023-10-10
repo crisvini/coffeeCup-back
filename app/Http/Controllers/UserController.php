@@ -6,6 +6,7 @@ use App\Mail\EmailVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -18,7 +19,10 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        User::create($request->all());
+        $data = $request->all();
+        $data['password'] = Hash::make($data['password']);
+        User::create($data);
+        return response()->json('ok', 200);
     }
 
     public function sendVerificationToken(Request $request)
