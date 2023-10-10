@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EmailVerification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 
 class UserController extends Controller
@@ -17,6 +19,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         User::create($request->all());
+    }
+
+    public function sendVerificationEmail(Request $request)
+    {
+        $code = mt_rand(100000, 999999);
+        $sent = Mail::to($request->input('email'))->send(new EmailVerification([
+            'fromName' => 'coffee cup',
+            'fromEmail' => 'coffeecup@verification.com',
+            'subject' => 'Your verification code from coffee cup',
+            'message' => ('Your verification code is: ' . $code)
+        ]));
+
+        return $code;
     }
 
     public function show(string $id)
