@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/login', 'login');
-    Route::post('/users', 'store');
+    Route::post('/users/store', 'store');
     Route::post('/send-verification-token', 'sendVerificationToken');
     Route::get('/receive-verification-token/{id}', 'receiveVerificationToken');
 });
