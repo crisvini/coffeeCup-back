@@ -21,8 +21,8 @@ class UserController extends Controller
     {
         $data = $request->all();
         $data['password'] = Hash::make($data['password']);
-        User::create($data);
-        return response()->json('ok', 200);
+        $user = User::create($data);
+        return response()->json(['id' => $user->id], 200);
     }
 
     public function sendVerificationToken(Request $request)
