@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Discussion;
 use Illuminate\Http\Request;
+use Mockery\CountValidator\Exception;
 
 class DiscussionController extends Controller
 {
@@ -14,7 +15,12 @@ class DiscussionController extends Controller
 
     public function store(Request $request)
     {
-        Discussion::create($request->all());
+        try {
+            Discussion::create($request->all());
+        } catch (Exception  $e) {
+            return false;
+        }
+        return true;
     }
 
     public function show(string $id)

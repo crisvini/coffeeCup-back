@@ -64,10 +64,15 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        $user = User::where('email', $request->email)->first();
+        if (!$user->email_verified_at) {
+            return response()->json(["error" => "email not validated", "user_id" => $user->id], 200);
+        }
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $token = $user->createToken('JWT');
-            return response()->json($token->plainTextToken, 200);
+            return response()->json(["token" => $token->plainTextToken, "user_id" => $user->id], 200);
         }
         return response()->json(false, 401);
     }
