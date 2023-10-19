@@ -10,7 +10,7 @@ class DiscussionController extends Controller
 {
     public function index()
     {
-        return Discussion::with('user:id,name,email')->get();
+        return Discussion::with('user:id,name,email')->paginate(1);
     }
 
     public function store(Request $request)
