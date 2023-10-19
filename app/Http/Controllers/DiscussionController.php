@@ -17,6 +17,7 @@ class DiscussionController extends Controller
     {
         try {
             $discussion = Discussion::create($request->all());
+            $discussion->load('user:id,name,email');
         } catch (Exception  $e) {
             return false;
         }
