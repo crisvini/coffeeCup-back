@@ -10,17 +10,17 @@ class DiscussionController extends Controller
 {
     public function index()
     {
-        return Discussion::all();
+        return Discussion::with('user:id,name,email')->get();
     }
 
     public function store(Request $request)
     {
         try {
-            Discussion::create($request->all());
+            $discussion = Discussion::create($request->all());
         } catch (Exception  $e) {
             return false;
         }
-        return true;
+        return response()->json($discussion, 200);
     }
 
     public function show(string $id)
