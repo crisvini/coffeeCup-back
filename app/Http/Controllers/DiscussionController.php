@@ -10,7 +10,7 @@ class DiscussionController extends Controller
 {
     public function index()
     {
-        return Discussion::with('user:id,name,email')->paginate(1);
+        return Discussion::with('user:id,name,email')->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function store(Request $request)
