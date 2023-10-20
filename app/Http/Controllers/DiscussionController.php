@@ -26,7 +26,7 @@ class DiscussionController extends Controller
 
     public function show(string $id)
     {
-        return Discussion::findOrFail($id);
+        return Discussion::with('user:id,name,email')->findOrFail($id);
     }
 
     public function update(Request $request, string $id)
