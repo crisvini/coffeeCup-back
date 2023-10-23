@@ -72,7 +72,7 @@ class UserController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $token = $user->createToken('JWT');
-            return response()->json(["token" => $token->plainTextToken, "user_id" => $user->id], 200);
+            return response()->json(["token" => $token->plainTextToken, "user_id" => $user->id, "email" => $user->email], 200);
         }
         return response()->json(false, 401);
     }
