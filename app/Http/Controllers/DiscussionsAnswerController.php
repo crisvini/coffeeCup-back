@@ -13,6 +13,11 @@ class DiscussionsAnswerController extends Controller
         return DiscussionsAnswer::with('user:id,name,email')->orderBy('created_at', 'desc')->get();
     }
 
+    public function discussionsAnswers(string $discussionId)
+    {
+        return DiscussionsAnswer::with('user:id,name,email')->where('discussion_id', $discussionId)->orderBy('created_at', 'desc')->get();
+    }
+
     public function store(Request $request)
     {
         try {

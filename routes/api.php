@@ -30,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', 'logout');
     });
 
+    Route::controller(DiscussionsAnswerController::class)->group(function () {
+        Route::get('/discussionsAnswers/filtered/{discussionId}', 'discussionsAnswers');
+    });
+
     Route::apiResources([
         'users' => UserController::class,
         'answersLikes' => AnswersLikeController::class,
@@ -39,4 +43,5 @@ Route::middleware('auth:sanctum')->group(function () {
         'followedUsers' => FollowedUserController::class,
         'followers' => FollowerController::class
     ]);
+    Route::get('/discussionsAnswers/{discussionId}', [DiscussionsAnswerController::class, 'index']);
 });
