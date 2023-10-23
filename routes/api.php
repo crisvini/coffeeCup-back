@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::controller(DiscussionsAnswerController::class)->group(function () {
-        Route::get('/discussionsAnswers/filtered/{discussionId}', 'discussionsAnswers');
+        Route::get('/discussionsAnswers/filtered/{discussionId}', 'indexFiltered');
     });
 
     Route::apiResources([
