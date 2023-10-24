@@ -28,7 +28,7 @@ class DiscussionController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
         } else if ($filterId == 3) {
-            return Discussion::with('user:id,name,email')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+            return Discussion::with('user:id,name,email')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
         }
     }
 
