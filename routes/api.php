@@ -30,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', 'logout');
     });
 
+    Route::controller(DiscussionController::class)->group(function () {
+        Route::get('/discussions/filtered/{filterId}', 'indexFiltered');
+    });
+
     Route::controller(DiscussionsAnswerController::class)->group(function () {
         Route::get('/discussionsAnswers/filtered/{discussionId}', 'indexFiltered');
     });

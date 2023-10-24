@@ -5,12 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Discussion;
 use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
+use Illuminate\Support\Facades\Auth;
+
 
 class DiscussionController extends Controller
 {
     public function index()
     {
         return Discussion::with('user:id,name,email')->orderBy('created_at', 'desc')->paginate(10);
+    }
+
+    public function indexFiltered(string $filterId)
+    {
+        if ($filterId == 1) {
+            return Discussion::with('user:id,name,email')->orderBy('created_at', 'desc')->paginate(10);
+        } else if ($filterId == 2) {
+            return
+                Discussion::select('discussions.*')
+                ->join('followed_users', 'followed_users.followed_user_id', '=', 'discussions.user_id')
+                ->where('followed_users.user_id', Auth::user()->id)
+                ->with('user:id,name,email')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } else if ($filterId == 3) {
+            return Discussion::with('user:id,name,email')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        }
     }
 
     public function store(Request $request)
