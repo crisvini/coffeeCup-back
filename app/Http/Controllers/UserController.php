@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Laravel\Sanctum\HasApiTokens;
+use App\Models\Discussion;
+use App\Models\DiscussionsLike;
+use App\Models\DiscussionsAnswer;
+use App\Models\AnswersLike;
 
 class UserController extends Controller
 {
@@ -81,5 +84,17 @@ class UserController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(true, 200);
+    }
+
+    public function interactions()
+    {
+        $interactions = 0;
+        $userId = Auth::user()->id;
+        $discussion = Discussion::where('user_id', $userId)->count();
+        $discussionsLike = DiscussionsLike::where('user_id', $userId)->count();
+        $discussionsAnswer = DiscussionsAnswer::where('user_id', $userId)->count();
+        $answersLike = AnswersLike::where('user_id', $userId)->count();
+        $interactions = $discussion + $discussionsLike + $discussionsAnswer + $answersLike;
+        return response()->json(["interactions" => $interactions], 200);
     }
 }
