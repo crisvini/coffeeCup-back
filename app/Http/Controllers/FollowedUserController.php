@@ -24,13 +24,13 @@ class FollowedUserController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = FollowedUser::findOrFail($id);
-        $user->update($request->all());
+        $followedUser = FollowedUser::findOrFail($id);
+        $followedUser->update($request->all());
     }
 
     public function destroy(string $id)
     {
-        $user = FollowedUser::findOrFail($id);
-        $user->delete();
+        $followedUser = FollowedUser::findOrFail($id);
+        $followedUser->delete();
     }
 }

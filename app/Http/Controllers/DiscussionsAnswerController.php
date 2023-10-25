@@ -36,13 +36,13 @@ class DiscussionsAnswerController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = DiscussionsAnswer::findOrFail($id);
-        $user->update($request->all());
+        $discussionAnswer = DiscussionsAnswer::findOrFail($id);
+        $discussionAnswer->update($request->all());
     }
 
     public function destroy(string $id)
     {
-        $user = DiscussionsAnswer::findOrFail($id);
-        $user->delete();
+        $discussionAnswer = DiscussionsAnswer::findOrFail($id);
+        $discussionAnswer->delete();
     }
 }

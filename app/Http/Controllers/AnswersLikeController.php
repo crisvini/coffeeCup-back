@@ -24,13 +24,13 @@ class AnswersLikeController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = AnswersLike::findOrFail($id);
-        $user->update($request->all());
+        $answerLike = AnswersLike::findOrFail($id);
+        $answerLike->update($request->all());
     }
 
     public function destroy(string $id)
     {
-        $user = AnswersLike::findOrFail($id);
-        $user->delete();
+        $answerLike = AnswersLike::findOrFail($id);
+        $answerLike->delete();
     }
 }

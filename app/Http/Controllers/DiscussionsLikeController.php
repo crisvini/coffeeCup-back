@@ -24,13 +24,13 @@ class DiscussionsLikeController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = DiscussionsLike::findOrFail($id);
-        $user->update($request->all());
+        $discussionLike = DiscussionsLike::findOrFail($id);
+        $discussionLike->update($request->all());
     }
 
     public function destroy(string $id)
     {
-        $user = DiscussionsLike::findOrFail($id);
-        $user->delete();
+        $discussionLike = DiscussionsLike::findOrFail($id);
+        $discussionLike->delete();
     }
 }

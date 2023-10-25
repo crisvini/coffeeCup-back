@@ -55,13 +55,15 @@ class DiscussionController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = Discussion::findOrFail($id);
-        $user->update($request->all());
+        $discussion = Discussion::findOrFail($id);
+        $discussion->update($request->all());
     }
 
     public function destroy(string $id)
     {
-        $user = Discussion::findOrFail($id);
-        $user->delete();
+        $discussion = Discussion::findOrFail($id);
+        $discussion->answers()->delete();
+        $discussion->delete();
+        return response()->json(true, 200);
     }
 }
