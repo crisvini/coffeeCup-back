@@ -32,9 +32,9 @@ class DiscussionController extends Controller
         }
     }
 
-    public function indexFilteredByUser()
+    public function indexFilteredByUser(string $userId)
     {
-        return Discussion::with('user:id,name,email')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        return Discussion::with('user:id,name,email')->where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public function store(Request $request)
