@@ -17,7 +17,25 @@ class UserController extends Controller
 {
     public function index()
     {
-        return User::select('id', 'name', 'email', 'created_at')->get();
+        $users = User::select('users.id', 'users.name', 'users.email', 'users.created_at')
+            ->leftJoin('discussions', 'users.id', '=', 'discussions.user_id')
+            ->leftJoin('discussions_likes', 'users.id', '=', 'discussions_likes.user_id')
+            ->leftJoin('discussions_answers', 'users.id', '=', 'discussions_answers.user_id')
+            ->leftJoin('answers_likes', 'users.id', '=', 'answers_likes.user_id')
+            ->selectRaw('users.id, users.name, users.email, users.created_at,
+                     COUNT(distinct discussions.id) as discussions_count,
+                     COUNT(distinct discussions_likes.id) as discussions_likes_count,
+                     COUNT(distinct discussions_answers.id) as discussions_answers_count,
+                     COUNT(distinct answers_likes.id) as answers_likes_count')
+            ->groupBy('users.id', 'users.name', 'users.email', 'users.created_at')
+            ->get();
+
+        $users->each(function ($user) {
+            $interactions = $user->discussions_count + $user->discussions_likes_count + $user->discussions_answers_count + $user->answers_likes_count;
+            $user->interactions = $interactions;
+        });
+
+        return $users;
     }
 
     public function store(Request $request)
@@ -50,7 +68,25 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        return User::select('id', 'name', 'email', 'created_at')->findOrFail($id);
+        $user = User::select('users.id', 'users.name', 'users.email', 'users.created_at')
+            ->leftJoin('discussions', 'users.id', '=', 'discussions.user_id')
+            ->leftJoin('discussions_likes', 'users.id', '=', 'discussions_likes.user_id')
+            ->leftJoin('discussions_answers', 'users.id', '=', 'discussions_answers.user_id')
+            ->leftJoin('answers_likes', 'users.id', '=', 'answers_likes.user_id')
+            ->selectRaw('users.id, users.name, users.email, users.created_at,
+                 COUNT(distinct discussions.id) as discussions_count,
+                 COUNT(distinct discussions_likes.id) as discussions_likes_count,
+                 COUNT(distinct discussions_answers.id) as discussions_answers_count,
+                 COUNT(distinct answers_likes.id) as answers_likes_count')
+            ->groupBy('users.id', 'users.name', 'users.email', 'users.created_at')
+            ->findOrFail($id);
+
+        if ($user) {
+            $interactions = $user->discussions_count + $user->discussions_likes_count + $user->discussions_answers_count + $user->answers_likes_count;
+            $user->interactions = $interactions;
+        }
+
+        return $user;
     }
 
     public function update(Request $request, string $id)
@@ -84,17 +120,5 @@ class UserController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(true, 200);
-    }
-
-    public function interactions()
-    {
-        $interactions = 0;
-        $userId = Auth::user()->id;
-        $discussion = Discussion::where('user_id', $userId)->count();
-        $discussionsLike = DiscussionsLike::where('user_id', $userId)->count();
-        $discussionsAnswer = DiscussionsAnswer::where('user_id', $userId)->count();
-        $answersLike = AnswersLike::where('user_id', $userId)->count();
-        $interactions = $discussion + $discussionsLike + $discussionsAnswer + $answersLike;
-        return response()->json(["interactions" => $interactions], 200);
     }
 }

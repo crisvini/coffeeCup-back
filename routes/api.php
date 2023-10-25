@@ -28,7 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/users', 'update');
         Route::delete('/users', 'destroy');
         Route::post('/logout', 'logout');
-        Route::get('/user/interactions', 'interactions');
     });
 
     Route::controller(DiscussionController::class)->group(function () {
