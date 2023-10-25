@@ -12,7 +12,7 @@ class DiscussionController extends Controller
 {
     public function index()
     {
-        return Discussion::with('user:id,name,email')->orderBy('created_at', 'desc')->paginate(10);
+        return Discussion::with('user:id,name,email')->orderBy('created_at', 'desc')->get();
     }
 
     public function indexFiltered(string $filterId)
@@ -30,6 +30,11 @@ class DiscussionController extends Controller
         } else if ($filterId == 3) {
             return Discussion::with('user:id,name,email')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
         }
+    }
+
+    public function indexFilteredByUser()
+    {
+        return Discussion::with('user:id,name,email')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
     }
 
     public function store(Request $request)

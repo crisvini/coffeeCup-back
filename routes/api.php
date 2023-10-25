@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(DiscussionController::class)->group(function () {
         Route::get('/discussions/filtered/{filterId}', 'indexFiltered');
+        Route::get('/discussions/filtered-by-user', 'indexFilteredByUser');
     });
 
     Route::controller(DiscussionsAnswerController::class)->group(function () {
