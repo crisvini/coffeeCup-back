@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return User::all();
+        return User::select('id', 'name', 'email', 'created_at')->get();
     }
 
     public function store(Request $request)
@@ -47,7 +47,7 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        return User::findOrFail($id);
+        return User::select('id', 'name', 'email', 'created_at')->findOrFail($id);
     }
 
     public function update(Request $request, string $id)
