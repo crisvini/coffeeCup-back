@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Models\Discussion;
-use App\Models\DiscussionsLike;
-use App\Models\DiscussionsAnswer;
-use App\Models\AnswersLike;
 
 class UserController extends Controller
 {
@@ -22,11 +18,13 @@ class UserController extends Controller
             ->leftJoin('discussions_likes', 'users.id', '=', 'discussions_likes.user_id')
             ->leftJoin('discussions_answers', 'users.id', '=', 'discussions_answers.user_id')
             ->leftJoin('answers_likes', 'users.id', '=', 'answers_likes.user_id')
+            ->leftJoin('followed_users', 'users.id', '=', 'followed_users.followed_user_id')
             ->selectRaw('users.id, users.name, users.email, users.created_at,
                      COUNT(distinct discussions.id) as discussions_count,
                      COUNT(distinct discussions_likes.id) as discussions_likes_count,
                      COUNT(distinct discussions_answers.id) as discussions_answers_count,
-                     COUNT(distinct answers_likes.id) as answers_likes_count')
+                     COUNT(distinct answers_likes.id) as answers_likes_count,
+                 COUNT(distinct followed_users.id) as followers_count')
             ->groupBy('users.id', 'users.name', 'users.email', 'users.created_at')
             ->get();
 
@@ -73,11 +71,13 @@ class UserController extends Controller
             ->leftJoin('discussions_likes', 'users.id', '=', 'discussions_likes.user_id')
             ->leftJoin('discussions_answers', 'users.id', '=', 'discussions_answers.user_id')
             ->leftJoin('answers_likes', 'users.id', '=', 'answers_likes.user_id')
+            ->leftJoin('followed_users', 'users.id', '=', 'followed_users.followed_user_id')
             ->selectRaw('users.id, users.name, users.email, users.created_at,
                  COUNT(distinct discussions.id) as discussions_count,
                  COUNT(distinct discussions_likes.id) as discussions_likes_count,
                  COUNT(distinct discussions_answers.id) as discussions_answers_count,
-                 COUNT(distinct answers_likes.id) as answers_likes_count')
+                 COUNT(distinct answers_likes.id) as answers_likes_count,
+                 COUNT(distinct followed_users.id) as followers_count')
             ->groupBy('users.id', 'users.name', 'users.email', 'users.created_at')
             ->findOrFail($id);
 
