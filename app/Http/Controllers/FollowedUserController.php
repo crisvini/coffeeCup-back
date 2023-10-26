@@ -40,10 +40,7 @@ class FollowedUserController extends Controller
     public function destroy(string $followedUserId)
     {
         $followedUser = FollowedUser::where("user_id", Auth::user()->id)->where("followed_user_id", $followedUserId)->first();
-        if ($followedUser) {
-            $followedUser->delete();
-            return response()->json($followedUser, 200);
-        }
-        return response()->json(false, 200);
+        $followedUser->delete();
+        return response()->json($followedUser, 200);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DiscussionsLike;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DiscussionsLikeController extends Controller
 {
@@ -14,12 +15,20 @@ class DiscussionsLikeController extends Controller
 
     public function store(Request $request)
     {
-        DiscussionsLike::create($request->all());
+        $discussionLike = DiscussionsLike::create($request->all());
+        return response()->json($discussionLike, 200);
     }
 
-    public function show(string $id)
+    // public function show(string $id)
+    // {
+    //     return response()->json(DiscussionsLike::findOrFail($id), 200);
+    // }
+
+    public function showDiscussionLike(string $likedDiscussionId)
     {
-        return DiscussionsLike::findOrFail($id);
+        $followedUser = DiscussionsLike::where("user_id", Auth::user()->id)->where("discussion_id", $likedDiscussionId)->first();
+        if ($followedUser) return response()->json($followedUser, 200);
+        return response()->json(false, 200);
     }
 
     // public function update(Request $request, string $id)
@@ -28,9 +37,10 @@ class DiscussionsLikeController extends Controller
     //     $discussionLike->update($request->all());
     // }
 
-    public function destroy(string $id)
+    public function destroy(string $discussionId)
     {
-        $discussionLike = DiscussionsLike::findOrFail($id);
+        $discussionLike = DiscussionsLike::where("user_id", Auth::user()->id)->where("discussion_id", $discussionId)->first();
         $discussionLike->delete();
+        return response()->json($discussionLike, 200);
     }
 }
