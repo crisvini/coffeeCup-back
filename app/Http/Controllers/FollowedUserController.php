@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\FollowedUser;
-use App\Models\Follower;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FollowedUserController extends Controller
 {
-    public function index()
-    {
-        return FollowedUser::all();
-    }
+    // public function index()
+    // {
+    //     return FollowedUser::all();
+    // }
 
     public function store(Request $request)
     {
@@ -20,10 +19,10 @@ class FollowedUserController extends Controller
         return response()->json($followedUser, 200);
     }
 
-    public function show(string $id)
-    {
-        return FollowedUser::findOrFail($id);
-    }
+    // public function show(string $id)
+    // {
+    //     return FollowedUser::findOrFail($id);
+    // }
 
     public function showFollowedUser(string $followedUserId)
     {
@@ -32,11 +31,11 @@ class FollowedUserController extends Controller
         return response()->json(false, 200);
     }
 
-    public function update(Request $request, string $id)
-    {
-        $followedUser = FollowedUser::findOrFail($id);
-        $followedUser->update($request->all());
-    }
+    // public function update(Request $request, string $id)
+    // {
+    //     $followedUser = FollowedUser::findOrFail($id);
+    //     $followedUser->update($request->all());
+    // }
 
     public function destroy(string $followedUserId)
     {

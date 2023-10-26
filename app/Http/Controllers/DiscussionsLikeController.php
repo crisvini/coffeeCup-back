@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class DiscussionsLikeController extends Controller
 {
-    public function index()
-    {
-        return DiscussionsLike::all();
-    }
+    // public function index()
+    // {
+    //     return DiscussionsLike::all();
+    // }
 
     public function store(Request $request)
     {
@@ -22,11 +22,11 @@ class DiscussionsLikeController extends Controller
         return DiscussionsLike::findOrFail($id);
     }
 
-    public function update(Request $request, string $id)
-    {
-        $discussionLike = DiscussionsLike::findOrFail($id);
-        $discussionLike->update($request->all());
-    }
+    // public function update(Request $request, string $id)
+    // {
+    //     $discussionLike = DiscussionsLike::findOrFail($id);
+    //     $discussionLike->update($request->all());
+    // }
 
     public function destroy(string $id)
     {

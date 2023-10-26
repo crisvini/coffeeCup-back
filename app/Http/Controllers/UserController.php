@@ -33,7 +33,7 @@ class UserController extends Controller
             $user->interactions = $interactions;
         });
 
-        return $users;
+        return response()->json($users, 200);
     }
 
     public function store(Request $request)
@@ -86,20 +86,20 @@ class UserController extends Controller
             $user->interactions = $interactions;
         }
 
-        return $user;
+        return response()->json($user, 200);
     }
 
-    public function update(Request $request, string $id)
-    {
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-    }
+    // public function update(Request $request, string $id)
+    // {
+    //     $user = User::findOrFail($id);
+    //     $user->update($request->all());
+    // }
 
-    public function destroy(string $id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-    }
+    // public function destroy(string $id)
+    // {
+    //     $user = User::findOrFail($id);
+    //     $user->delete();
+    // }
 
     public function login(Request $request)
     {
