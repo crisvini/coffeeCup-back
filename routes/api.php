@@ -39,6 +39,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/discussionsAnswers/filtered/{discussionId}', 'indexFiltered');
     });
 
+    Route::controller(FollowedUserController::class)->group(function () {
+        Route::get('/followedUsers/show-followed-user/{followedUserId}', 'showFollowedUser');
+    });
+
     Route::apiResources([
         'users' => UserController::class,
         'answersLikes' => AnswersLikeController::class,
