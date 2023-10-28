@@ -47,10 +47,9 @@ class DiscussionController extends Controller
     public function show(string $id)
     {
         $discussion = Discussion::select('discussions.*')
+            ->with('user:id,name,email')
             ->addSelect(DB::raw('(SELECT COUNT(DISTINCT user_id) FROM discussions_likes WHERE discussion_id = discussions.id) as discussions_likes_count'))
-            ->join('users', 'discussions.user_id', '=', 'users.id')
-            ->where('discussions.id', $id)
-            ->first();
+            ->findOrFail($id);
 
         return response()->json($discussion, 200);
     }
