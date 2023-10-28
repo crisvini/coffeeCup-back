@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class DiscussionController extends Controller
 {
-    // public function index()
-    // {
-    //     return response()->json(Discussion::with('user:id,name,email')->orderBy('created_at', 'desc')->get(), 200);
-    // }
-
     public function indexFiltered(string $filterId)
     {
         if ($filterId == 1) {
@@ -51,19 +46,14 @@ class DiscussionController extends Controller
 
     public function show(string $id)
     {
-        $discussion = Discussion::with('user:id,name,email')
-            ->select('discussions.*')
+        $discussion = Discussion::select('discussions.*')
             ->addSelect(DB::raw('(SELECT COUNT(DISTINCT user_id) FROM discussions_likes WHERE discussion_id = discussions.id) as discussions_likes_count'))
-            ->findOrFail($id);
+            ->join('users', 'discussions.user_id', '=', 'users.id')
+            ->where('discussions.id', $id)
+            ->first();
 
         return response()->json($discussion, 200);
     }
-
-    // public function update(Request $request, string $id)
-    // {
-    //     $discussion = Discussion::findOrFail($id);
-    //     $discussion->update($request->all());
-    // }
 
     public function destroy(string $id)
     {

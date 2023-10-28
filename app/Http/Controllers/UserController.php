@@ -17,19 +17,17 @@ class UserController extends Controller
             ->leftJoin('discussions', 'users.id', '=', 'discussions.user_id')
             ->leftJoin('discussions_likes', 'users.id', '=', 'discussions_likes.user_id')
             ->leftJoin('discussions_answers', 'users.id', '=', 'discussions_answers.user_id')
-            ->leftJoin('answers_likes', 'users.id', '=', 'answers_likes.user_id')
             ->leftJoin('followed_users', 'users.id', '=', 'followed_users.followed_user_id')
             ->selectRaw('users.id, users.name, users.email, users.created_at,
                      COUNT(distinct discussions.id) as discussions_count,
                      COUNT(distinct discussions_likes.id) as discussions_likes_count,
                      COUNT(distinct discussions_answers.id) as discussions_answers_count,
-                     COUNT(distinct answers_likes.id) as answers_likes_count,
                  COUNT(distinct followed_users.id) as followers_count')
             ->groupBy('users.id', 'users.name', 'users.email', 'users.created_at')
             ->get();
 
         $users->each(function ($user) {
-            $interactions = $user->discussions_count + $user->discussions_likes_count + $user->discussions_answers_count + $user->answers_likes_count;
+            $interactions = $user->discussions_count + $user->discussions_likes_count + $user->discussions_answers_count;
             $user->interactions = $interactions;
         });
 
@@ -70,36 +68,22 @@ class UserController extends Controller
             ->leftJoin('discussions', 'users.id', '=', 'discussions.user_id')
             ->leftJoin('discussions_likes', 'users.id', '=', 'discussions_likes.user_id')
             ->leftJoin('discussions_answers', 'users.id', '=', 'discussions_answers.user_id')
-            ->leftJoin('answers_likes', 'users.id', '=', 'answers_likes.user_id')
             ->leftJoin('followed_users', 'users.id', '=', 'followed_users.followed_user_id')
             ->selectRaw('users.id, users.name, users.email, users.created_at,
                  COUNT(distinct discussions.id) as discussions_count,
                  COUNT(distinct discussions_likes.id) as discussions_likes_count,
                  COUNT(distinct discussions_answers.id) as discussions_answers_count,
-                 COUNT(distinct answers_likes.id) as answers_likes_count,
                  COUNT(distinct followed_users.id) as followers_count')
             ->groupBy('users.id', 'users.name', 'users.email', 'users.created_at')
             ->findOrFail($id);
 
         if ($user) {
-            $interactions = $user->discussions_count + $user->discussions_likes_count + $user->discussions_answers_count + $user->answers_likes_count;
+            $interactions = $user->discussions_count + $user->discussions_likes_count + $user->discussions_answers_count;
             $user->interactions = $interactions;
         }
 
         return response()->json($user, 200);
     }
-
-    // public function update(Request $request, string $id)
-    // {
-    //     $user = User::findOrFail($id);
-    //     $user->update($request->all());
-    // }
-
-    // public function destroy(string $id)
-    // {
-    //     $user = User::findOrFail($id);
-    //     $user->delete();
-    // }
 
     public function login(Request $request)
     {

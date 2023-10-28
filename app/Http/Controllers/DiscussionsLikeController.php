@@ -8,21 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class DiscussionsLikeController extends Controller
 {
-    // public function index()
-    // {
-    //     return DiscussionsLike::all();
-    // }
-
     public function store(Request $request)
     {
         $discussionLike = DiscussionsLike::create($request->all());
         return response()->json($discussionLike, 200);
     }
-
-    // public function show(string $id)
-    // {
-    //     return response()->json(DiscussionsLike::findOrFail($id), 200);
-    // }
 
     public function showDiscussionLike(string $likedDiscussionId)
     {
@@ -30,12 +20,6 @@ class DiscussionsLikeController extends Controller
         if ($followedUser) return response()->json($followedUser, 200);
         return response()->json(false, 200);
     }
-
-    // public function update(Request $request, string $id)
-    // {
-    //     $discussionLike = DiscussionsLike::findOrFail($id);
-    //     $discussionLike->update($request->all());
-    // }
 
     public function destroy(string $discussionId)
     {
